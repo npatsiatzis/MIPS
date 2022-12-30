@@ -2,7 +2,6 @@ import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge,FallingEdge,ClockCycles
 from cocotb.binary import BinaryValue
-from alu_model import alu_model
 import random
 from cocotb_coverage import crv 
 from cocotb_coverage.coverage import CoverCross,CoverPoint,coverage_db
@@ -69,7 +68,7 @@ async def memory_randomised_test(dut):
 	await reset(dut,5)
 
 
-	mem = np.zeros(2**g_width,dtype=int)
+	mem = np.zeros(2**g_depth,dtype=int)
 	inputs = crv_inputs(0,0,0)
 	data_out = 0
 	dut.i_en.value = 1
@@ -80,11 +79,11 @@ async def memory_randomised_test(dut):
 	dut.i_addr.value = addr
 	dut.i_data.value = data
 	await RisingEdge(dut.i_clk)
+	data_out = write_first_mem_model(mem,we,addr,data)	
 	io_cover(we,addr,data)
 	coverage_db["top.cross"].add_threshold_callback(notify_full, 100)
-	data_out = write_first_mem_model(mem,we,addr,data)	
 
-	
+
 	while(full != True):
 		(we,addr,data) = randomize_ibus(inputs)
 
