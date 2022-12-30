@@ -14,16 +14,6 @@ covered_XY = []
 g_width = int(cocotb.top.g_width)
 
 
-# @enum.unique
-# class Ops(enum.IntEnum):
-#     """Legal ops for the TinyALU"""
-#     AND = 0
-#     OR  = 1
-#     ADD = 2
-#     SUB = 6
-#     SLT = 7
-#     NOR = 12
-
 class crv_inputs(crv.Randomized):
 	def __init__(self,x,y,op):
 		crv.Randomized.__init__(self)
@@ -49,27 +39,9 @@ def io_cover(A,B,op):
 	covered_XY.append((A,B,op))
 
 
-# @cocotb.test()
-# async def test_add_sub(dut):
-# 	A = -4 
-# 	B = -5
-# 	op = 12	
-# 	for i in range(-2**(g_width-1),2**(g_width-1)):
-# 		for j in range(-2**(g_width-1),2**(g_width-1)):
-
-# 			dut.i_A.value = i
-# 			dut.i_B.value = j
-# 			dut.i_op.value = op
-# 			await Timer(2)	
-# 			o_out = BinaryValue(value=str(dut.o_out.value),binaryRepresentation=2)
-# 			assert not (o_out.integer != alu_model(dut.i_A.value,dut.i_B.value,op,g_width))
-# 			# print(o_out.integer)
-# 			# print(alu_model(i,j,op))
-
-
 @cocotb.test()
 def alu_randomised_test(dut):
-	"""Coverage driven test-generation. Full A-B cross-coverage, Full C coverage"""
+	"""Coverage driven test-generation. Full A-B-op cross-coverage, """
 	
 	inputs = crv_inputs(0,0,0)
 
@@ -93,6 +65,7 @@ def alu_randomised_test(dut):
 		io_cover(A,B,op)
 		coverage_db["top.cross"].add_threshold_callback(notify_full, 100)
 		o_out = BinaryValue(value=str(dut.o_out.value),binaryRepresentation=2)
+		assert not ((o_out.integer == 0) != (dut.o_zero.value == 1))
 		assert not (o_out.integer != alu_model(dut.i_A.value,dut.i_B.value,op,g_width))
 	coverage_db.report_coverage(cocotb.log.info,bins=True)
 	coverage_db.export_to_xml(filename="coverage.xml")

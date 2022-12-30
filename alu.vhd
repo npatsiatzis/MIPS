@@ -1,3 +1,12 @@
+--ALU Inputs: i_A,i_B,i_op, Outputs: o_out,o_zero
+--Operations :
+--Bitwise AND (op :0)
+--Bitwise OR (op :1)
+--ADD (op :2)
+--SUB (op :6)
+--SLT (op :7)
+--NOR (op :12)
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
