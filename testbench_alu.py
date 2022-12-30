@@ -1,4 +1,3 @@
-# Simple tests for an adder module
 import cocotb
 from cocotb.triggers import Timer
 from cocotb.result import TestFailure
@@ -67,5 +66,5 @@ def alu_randomised_test(dut):
 		o_out = BinaryValue(value=str(dut.o_out.value),binaryRepresentation=2)
 		assert not ((o_out.integer == 0) != (dut.o_zero.value == 1))
 		assert not (o_out.integer != alu_model(dut.i_A.value,dut.i_B.value,op,g_width))
-	coverage_db.report_coverage(cocotb.log.info,bins=True)
-	coverage_db.export_to_xml(filename="coverage.xml")
+	# coverage_db.report_coverage(cocotb.log.info,bins=True)
+	coverage_db.export_to_xml(filename="coverage_alu.xml")
