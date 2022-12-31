@@ -6,8 +6,7 @@ from alu_model import alu_model
 import random
 from cocotb_coverage import crv 
 from cocotb_coverage.coverage import CoverCross,CoverPoint,coverage_db
-import enum
-
+import os
 
 covered_XY = []
 g_width = int(cocotb.top.g_width)
