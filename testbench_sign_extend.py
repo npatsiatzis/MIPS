@@ -9,7 +9,7 @@ from cocotb.binary import BinaryValue
 
 
 covered = []
-g_width = 16
+g_width = 8		# should be 16, if machine's memory allows for the simulation
 
 class crv_inputs(crv.Randomized):
 	def __init__(self,x):
