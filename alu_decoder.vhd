@@ -33,10 +33,10 @@ begin
 					when "101010" => 
 						o_alu_control <= "0111";
 					when others =>
-						o_alu_control <= (others => 'X')
+						o_alu_control <= (others => 'X');
 				end case;
 			when others =>
-				o_alu_control <= (others => 'X')
+				o_alu_control <= (others => 'X');
 		end case;
 	end process; -- alu_decode
 end rtl;

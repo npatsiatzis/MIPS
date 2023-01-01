@@ -14,6 +14,7 @@ VHDL_SOURCES += $(PWD)/mux2.vhd
 VHDL_SOURCES += $(PWD)/shift2.vhd
 VHDL_SOURCES += $(PWD)/sign_extend.vhd
 VHDL_SOURCES += $(PWD)/control_unit.vhd
+VHDL_SOURCES += $(PWD)/alu_decoder.vhd
 # use VHDL_SOURCES for VHDL files
 
 # TOPLEVEL is the name of the toplevel module in your Verilog or VHDL file
@@ -50,6 +51,10 @@ sign_extend:
 control_unit:
 		$(MAKE) sim MODULE=testbench_control_unit TOPLEVEL=control_unit
 		mv coverage_control_unit.xml coverage_results/coverage_control_unit.xml
+
+alu_decoder:
+		$(MAKE) sim MODULE=testbench_alu_decoder TOPLEVEL=alu_decoder
+		mv coverage_alu_decoder.xml coverage_results/coverage_alu_decoder.xml
 
 # include cocotb's make rules to take care of the simulator setup
 include $(shell cocotb-config --makefiles)/Makefile.sim
