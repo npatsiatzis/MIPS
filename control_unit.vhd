@@ -3,13 +3,16 @@ use ieee.std_logic_1164.all;
 
 entity control_unit is
 	port(
-		i_alu_op : in std_ulogic_vector(1 downto 0);
 		i_opcode : in std_ulogic_vector(5 downto 0);
+		o_alu_op : out std_ulogic_vector(1 downto 0);
 		o_control_bus : out std_ulogic_vector(8 downto 0));
 end control_unit;
 
 architecture rtl of control_unit is 
 begin
+
+	o_alu_op <= o_control_bus(1 downto 0);
+
 	crtl_unit : process(all)
 	begin
 		case (i_opcode) is
@@ -21,7 +24,7 @@ begin
 				o_control_bus <= "00X101X00";
 			when "000100" =>		--BEQ
 				o_control_bus <= "00X010X01";
-			when "000101" =>		--BNE
+		when "000101" =>		--BNE
 				o_control_bus <= "00X010X01";
 			when others =>
 				o_control_bus <= "XXXXXXXXX";

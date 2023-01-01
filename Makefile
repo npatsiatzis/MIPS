@@ -13,6 +13,7 @@ VHDL_SOURCES += $(PWD)/adder_32.vhd
 VHDL_SOURCES += $(PWD)/mux2.vhd
 VHDL_SOURCES += $(PWD)/shift2.vhd
 VHDL_SOURCES += $(PWD)/sign_extend.vhd
+VHDL_SOURCES += $(PWD)/control_unit.vhd
 # use VHDL_SOURCES for VHDL files
 
 # TOPLEVEL is the name of the toplevel module in your Verilog or VHDL file
@@ -45,6 +46,10 @@ shift2:
 sign_extend:
 		$(MAKE) sim MODULE=testbench_sign_extend TOPLEVEL=sign_extend
 		mv coverage_sign_extend.xml coverage_results/coverage_sign_extend.xml
+
+control_unit:
+		$(MAKE) sim MODULE=testbench_control_unit TOPLEVEL=control_unit
+		mv coverage_control_unit.xml coverage_results/coverage_control_unit.xml
 
 # include cocotb's make rules to take care of the simulator setup
 include $(shell cocotb-config --makefiles)/Makefile.sim
