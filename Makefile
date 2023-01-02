@@ -24,6 +24,9 @@ VHDL_SOURCES += $(PWD)/alu_decoder.vhd
 #where python will look for modules and packages
 export PYTHONPATH := $(PWD)/model:$(PYTHONPATH)
 
+top:
+		$(MAKE) sim MODULE=testbench_top TOPLEVEL=top
+
 alu:
 		$(MAKE) sim MODULE=testbench_alu TOPLEVEL=alu
 		mv coverage_alu.xml coverage_results/coverage_alu.xml
