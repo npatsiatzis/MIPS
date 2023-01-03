@@ -25,6 +25,7 @@ architecture rtl of i_memory is
 	type ram_type is array(2**g_depth -1 downto 0) of std_ulogic_vector(g_width -1 downto 0);
 	--signal memory : std_ulogic_vector(4*1024 downto 0);
 	signal mem : ram_type:=(0=>x"11200190", 1=>x"08000006" ,2=>x"8d490190",3=>x"11200190" ,4=> x"01285020",5=>x"ad2a0064",6=> x"ad490064" ,7 =>x"08000002",others => (others => '0'));
+	--signal mem : ram_type:=(0=>x"11290001",1=>x"8d490190",2=>x"11200190" ,3=> x"01285020",4=>x"ad2a0064",5=> x"ad490064",others => (others => '0'));
 begin
 
 	o_data <= mem(to_integer(unsigned(i_addr(11 downto 0))));
@@ -75,6 +76,12 @@ end rtl;
 -- 1010 1101 0100 1001    0000 0000 0110 0100
 --	a	  d    4   9      0	     0	  6  4
 
--- j 3
+-- j 2
 --0000 1000 0000 0000 0000 0000 0000  0010
 -- 0    8    0    0    0     0   0     2
+
+
+
+--beq $t1 $t1 1  (opcode/func : 4 hex)
+-- 0001 0001 0010 1001 0000   0000 0000 0001
+--  1    1    2    9     0     0    0    1

@@ -18,6 +18,10 @@ VHDL_SOURCES += $(PWD)/sign_extend.vhd
 VHDL_SOURCES += $(PWD)/control_unit.vhd
 VHDL_SOURCES += $(PWD)/alu_decoder.vhd
 VHDL_SOURCES += $(PWD)/top.vhd
+VHDL_SOURCES += $(PWD)/if_id.vhd
+VHDL_SOURCES += $(PWD)/id_ex.vhd
+VHDL_SOURCES += $(PWD)/ex_mem.vhd
+VHDL_SOURCES += $(PWD)/mem_wb.vhd
 # use VHDL_SOURCES for VHDL files
 
 # TOPLEVEL is the name of the toplevel module in your Verilog or VHDL file
