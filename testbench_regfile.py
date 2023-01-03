@@ -81,7 +81,11 @@ async def memory_randomised_test(dut):
 	await reset(dut,5)
 
 
+	# change accordingly if initialization of reg file changes
 	mem = np.zeros(2**g_depth,dtype=int)
+	for i in range(2**g_depth):
+		mem[i] = i
+
 	inputs = crv_inputs(0,0,0,0,0)
 	data_outA = 0
 	data_outB = 0
@@ -103,7 +107,7 @@ async def memory_randomised_test(dut):
 		(we,data,addrA,addrB,waddr) = randomize_ibus(inputs)
 
 		while (we,data,addrA,addrB) in covered_XY:
-			(we,data,addrA,addrB,waddr) = randomize_ibus(inputs)
+			(we,data,addrA,addrB,waddr) = randomize_ibups(inputs)
 
 		dut.i_we.value = we
 		dut.i_raddr_A.value = addrA

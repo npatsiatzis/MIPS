@@ -33,7 +33,6 @@ def test_alu(parameter):
         toplevel_lang="vhdl",
         parameters=parameter,                              #parameter dictionary
         extra_env=parameter,
-        work_dir =os.getcwd(),
         sim_build="sim_build/"
         + "_".join(("{}={}".format(*i) for i in parameter.items())),
     )

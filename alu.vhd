@@ -15,12 +15,12 @@ use ieee.numeric_std_unsigned.all;
 entity alu is
 	generic(
 		g_width : natural :=4);
-	port(
-		i_A : in std_ulogic_vector(g_width -1 downto 0);
-		i_B : in std_ulogic_vector(g_width -1 downto 0);
-		i_op : in std_ulogic_vector(3 downto 0);
-		o_zero : out std_ulogic;
-		o_out : out std_ulogic_vector(g_width -1 downto 0)); 
+	port(	
+		i_A : in std_ulogic_vector(g_width -1 downto 0);		--operand A
+		i_B : in std_ulogic_vector(g_width -1 downto 0);		--operand B
+		i_op : in std_ulogic_vector(3 downto 0);				--alu operation
+		o_zero : out std_ulogic;								--alu result is zero
+		o_out : out std_ulogic_vector(g_width -1 downto 0)); 	--alu result
 end alu;
 
 architecture rtl of alu is 

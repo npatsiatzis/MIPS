@@ -25,6 +25,7 @@ def alu_model(a, b, op, g_width):
 
 
 	elif(op == 6):
+		#2's Complement
 		B = 2**g_width - b.integer
 		res = (a.integer + B) % 2**g_width
 		c = BinaryValue(value=res,bigEndian=False,binaryRepresentation=0,n_bits=g_width)

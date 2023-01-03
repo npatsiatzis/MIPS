@@ -15,6 +15,8 @@ def alu_decoder_model(op,func):
 			return "0001"
 		elif(func == 42):
 			return "0111"
+		elif(func == 39):
+			return "1100"
 		else:
 			return "XXXX"
 	else:

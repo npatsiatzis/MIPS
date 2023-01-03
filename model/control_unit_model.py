@@ -11,5 +11,7 @@ def control_unit_model(opcode):
 		return "00X010X01"
 	elif(opcode == 5):
 		return "00X010X01"
+	elif(opcode == 2):
+		return "XX1X1XXXX"
 	else:
 		return "XXXXXXXXX"

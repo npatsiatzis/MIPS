@@ -7,14 +7,17 @@ EXTRA_ARGS += --std=08
 SIM_ARGS += --wave=wave.ghw
 
 VHDL_SOURCES += $(PWD)/alu.vhd
-VHDL_SOURCES += $(PWD)/memory.vhd
+VHDL_SOURCES += $(PWD)/d_memory.vhd
+VHDL_SOURCES += $(PWD)/i_memory.vhd
 VHDL_SOURCES += $(PWD)/reg_file.vhd
 VHDL_SOURCES += $(PWD)/adder_32.vhd
 VHDL_SOURCES += $(PWD)/mux2.vhd
+VHDL_SOURCES += $(PWD)/mux2_bit.vhd
 VHDL_SOURCES += $(PWD)/shift2.vhd
 VHDL_SOURCES += $(PWD)/sign_extend.vhd
 VHDL_SOURCES += $(PWD)/control_unit.vhd
 VHDL_SOURCES += $(PWD)/alu_decoder.vhd
+VHDL_SOURCES += $(PWD)/top.vhd
 # use VHDL_SOURCES for VHDL files
 
 # TOPLEVEL is the name of the toplevel module in your Verilog or VHDL file
@@ -31,7 +34,7 @@ alu:
 		$(MAKE) sim MODULE=testbench_alu TOPLEVEL=alu
 		mv coverage_alu.xml coverage_results/coverage_alu.xml
 memory:
-		$(MAKE) sim MODULE=testbench_memory TOPLEVEL=memory
+		$(MAKE) sim MODULE=testbench_memory TOPLEVEL=d_memory
 		mv coverage_memory.xml coverage_results/coverage_memory.xml
 regfile:
 		$(MAKE) sim MODULE=testbench_regfile TOPLEVEL=reg_file

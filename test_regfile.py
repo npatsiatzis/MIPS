@@ -11,7 +11,7 @@ rtl_dir = tests_dir                                    #path to hdl folder where
 
                                    
 #run tests with generic values for length
-@pytest.mark.parametrize("g_width", [str(i) for i in range(2,5,1)])
+@pytest.mark.parametrize("g_width", [str(i) for i in range(5,9,1)])
 @pytest.mark.parametrize("g_depth", [str(i) for i in range(2,5,1)])
 def test_regfile(g_width,g_depth):
 

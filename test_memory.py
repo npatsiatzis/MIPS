@@ -16,9 +16,9 @@ rtl_dir = tests_dir                                    #path to hdl folder where
 def test_memory(g_width,g_depth):
 
     module = "testbench_memory"
-    toplevel = "memory"   
+    toplevel = "d_memory"   
     vhdl_sources = [
-        os.path.join(rtl_dir, "memory.vhd"),
+        os.path.join(rtl_dir, "d_memory.vhd"),
         ]
 
     parameter = {}
