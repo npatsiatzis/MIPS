@@ -5,6 +5,8 @@ entity if_id is
 	port(
 		i_clk : in std_ulogic;
 		i_rst : in std_ulogic;
+		i_we : in std_ulogic;
+		i_flush : in std_ulogic;
 		i_PC : in std_ulogic_vector(31 downto 0);
 		i_instr : in std_ulogic_vector(31 downto 0);
 
@@ -21,8 +23,13 @@ begin
 				o_PC <= (others => '0');
 				o_instr <= (others => '0');
 			else
-				o_PC <= i_PC;
-				o_instr <= i_instr;
+				if(i_flush = '1') then
+					o_PC <= i_PC;
+					o_instr <= (others => '0');
+				elsif(i_we = '1') then
+					o_PC <= i_PC;
+					o_instr <= i_instr;
+				end if;
 			end if;
 		end if;
 	end process; -- if_id_pipeline

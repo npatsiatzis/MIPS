@@ -55,7 +55,7 @@ begin
 			when "1100" => 
 				w_result <= unsigned_A nor unsigned_B;
 			when others =>
-				w_result <= (others => 'X');
+				w_result <= (others => '0');
 		end case;
 	end process; -- alu_ops
 end rtl;

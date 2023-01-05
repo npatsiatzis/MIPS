@@ -22,6 +22,8 @@ VHDL_SOURCES += $(PWD)/if_id.vhd
 VHDL_SOURCES += $(PWD)/id_ex.vhd
 VHDL_SOURCES += $(PWD)/ex_mem.vhd
 VHDL_SOURCES += $(PWD)/mem_wb.vhd
+VHDL_SOURCES += $(PWD)/forwarding_unit.vhd
+VHDL_SOURCES += $(PWD)/hazard_detection_unit.vhd
 # use VHDL_SOURCES for VHDL files
 
 # TOPLEVEL is the name of the toplevel module in your Verilog or VHDL file
