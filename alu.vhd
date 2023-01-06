@@ -18,7 +18,7 @@ entity alu is
 	port(	
 		i_A : in std_ulogic_vector(g_width -1 downto 0);		--operand A
 		i_B : in std_ulogic_vector(g_width -1 downto 0);		--operand B
-		i_op : in std_ulogic_vector(3 downto 0);				--alu operation
+		i_op : in std_ulogic_vector(3 downto 0);				--alu operation (determined by func field)
 		o_zero : out std_ulogic;								--alu result is zero
 		o_out : out std_ulogic_vector(g_width -1 downto 0)); 	--alu result
 end alu;

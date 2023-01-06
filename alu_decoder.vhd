@@ -14,14 +14,14 @@ architecture rtl of alu_decoder is
 begin
 	alu_decode : process(all)
 	begin
-		case(i_alu_op) is
+		case(i_alu_op) is                           --alu operation to perform
 			when "00" =>		--LW/SW 
 				o_alu_control <= "0010";			--add
 
 			when "01" =>		--BEQ/BNE 
 				o_alu_control <= "0110";			--sub
 
-			when "10" =>		--R-format
+			when "10" =>		--R-format (here, operation depends of the instrctuction's func field)
 				case(i_func) is
 					when "100000" => 
 						o_alu_control <= "0010";	--add

@@ -125,6 +125,10 @@ architecture rtl of top is
 	signal w_comp_equal : std_ulogic;
 
 	signal w_flush_if_id : std_ulogic;
+
+	signal w_flush_from_ex : std_ulogic;
+	signal branch_add_out : std_ulogic_vector(i_PC'range);
+	signal r_branch_add_out : std_ulogic_vector(i_PC'range);
 begin
 
 	if_id_inst : entity work.if_id(rtl)
@@ -135,9 +139,11 @@ begin
 		i_flush => w_flush_if_id,
 		i_PC => w_PC_adder_out,
 		i_instr => w_curr_instr,
+		i_branch_add_out => w_branch_add_out,
 
 		o_PC => w_if_id_PC,
-		o_instr => w_if_id_instr);
+		o_instr => w_if_id_instr,
+		o_branch_add_out => r_branch_add_out);
 
 
 	id_ex_inst : entity work.id_ex(rtl)
@@ -164,37 +170,12 @@ begin
 		o_instr => w_id_ex_curr_instr,
 		o_jump => w_id_ex_jump);
 
-	--id_ex_inst : entity work.id_ex(rtl)
-	--port map(
-	--	i_clk => i_clk,
-	--	i_rst => i_rst,
-	--	i_control_bus => w_control_bus,
-	--	i_PC => w_if_id_PC,
-	--	i_reg_dataA => w_reg_rdataA,
-	--	i_reg_dataB => w_reg_rdataB,
-	--	i_sign_extend => w_sign_extend_out,
-	--	i_rt =>w_if_id_instr(20 downto 16),
-	--	i_rd => w_if_id_instr(15 downto 11),
-	--	i_instr =>w_if_id_instr,
-	--	i_jump =>w_jump,
-
-	--	o_control_bus => w_id_ex_control_bus,
-	--	o_PC =>w_id_ex_PC,
-	--	o_reg_dataA =>w_id_ex_reg_dataA,
-	--	o_reg_dataB =>w_id_ex_reg_dataB,
-	--	o_sign_extend =>w_id_ex_sign_extend,
-	--	o_rt =>w_id_ex_rt,
-	--	o_rd =>w_id_ex_rd,
-	--	o_instr => w_id_ex_curr_instr,
-	--	o_jump => w_id_ex_jump);
-
 
 	ex_mem_inst : entity work.ex_mem(rtl)
 	port map(
 		i_clk => i_clk,
 		i_rst => i_rst,
 		i_control_bus =>w_id_ex_control_bus,
-		--i_adder => (w_branch_add_out),
 		i_adder => (others => '0'),
 		i_alu_zero =>w_alu_zero,
 		i_alu_out =>w_alu_out,
@@ -247,13 +228,16 @@ begin
 		i_data => (others => '0'),
 		o_data => w_curr_instr);
 
+	branch_add_out <= r_branch_add_out when w_alu_zero = '1' and w_id_ex_control_bus(4) = '1' and w_mem_wb_control_bus(8) = '1' 
+	else w_branch_add_out;
 
 	mux2_32_PC : entity work.mux2(rtl)
 	generic map(
 		g_width => 32)
 	port map(
 		i_A =>w_PC_adder_out,
-		i_B=>w_branch_add_out,
+		i_B=>branch_add_out,
+		--i_B=>w_branch_add_out,
 		i_sel=>w_PC_mux,
 		o_out=>w_PC);
 
@@ -265,32 +249,10 @@ begin
 	port map(
 		i_A =>w_PC,
 		i_B=> w_j_immediate,
-		--i_sel=>w_ex_mem_jump,
 		i_sel=>w_jump,
 		o_out=>w_PC_final);
 
 	w_flush_if_id <= w_jump or w_PC_mux;
-
-	--mux2_32_PC : entity work.mux2(rtl)
-	--generic map(
-	--	g_width => 32)
-	--port map(
-	--	i_A =>w_PC_adder_out,
-	--	i_B=>w_ex_mem_adder,
-	--	i_sel=>w_PC_mux,
-	--	o_out=>w_PC);
-
-	--w_j_immediate  <= std_ulogic_vector(resize(unsigned(w_ex_mem_curr_instr(25 downto 0)),32));
-
-	--mux2_32_PC_final : entity work.mux2(rtl)
-	--generic map(
-	--	g_width => 32)
-	--port map(
-	--	i_A =>w_PC,
-	--	i_B=> w_j_immediate,
-	--	--i_sel=>w_ex_mem_jump,
-	--	i_sel=>w_jump,
-	--	o_out=>w_PC_final);
 	----------------------INSTRUCTION DECODE------------------------------
 
 	sign_extend : entity work.sign_extend(rtl)
@@ -323,7 +285,7 @@ begin
 
 	id_ex_flush_mux : process(all)
 	begin
-		if(w_flush_mux_sel = '1') then
+		if(w_flush_mux_sel = '1' or w_flush_from_ex = '1') then
 			id_ex_control_bus <= (others => '0');
 			id_ex_PC <= (others => '0');
 			id_ex_rdataA <= (others => '0');
@@ -351,7 +313,6 @@ begin
 	port map(
 		i_id_ex_mem_read => w_id_ex_control_bus(8),
 		i_ex_mem_mem_read => w_ex_mem_control_bus(8),
-		i_id_ex_instr => w_id_ex_curr_instr,
 		i_id_ex_rt => w_id_ex_curr_instr(20 downto 16),
 		i_if_id_instr => w_if_id_instr,
 		o_hold_PC => w_hold_PC,
@@ -364,12 +325,6 @@ begin
 		i_A => w_if_id_PC,
 		i_B => w_sign_extend_out,				
 		o_result => w_branch_add_out);
-
-	--adder32_branch : entity work.adder_32(rtl)
-	--port map(
-	--	i_A => w_id_ex_PC,
-	--	i_B => w_id_ex_sign_extend,				
-	--	o_result => w_branch_add_out);
 
 	comp3_A : process(all)
 	begin
@@ -392,10 +347,12 @@ begin
 			w_compB <= w_reg_file_data;
 		end if;
 	end process; -- comp3_B
+
 	w_comp_equal <= '1' when (w_compA = w_compB) else '0';
-	--w_PC_mux <= w_id_ex_control_bus(4) and w_comp_equal;
-	w_PC_mux <= w_control_bus(4) and w_comp_equal;
-	--w_PC_mux <= w_ex_mem_control_bus(4) and w_mux_bne;
+	w_flush_from_ex <= '1' when (w_alu_zero xor  w_id_ex_curr_instr(26)) = '1' and w_id_ex_control_bus(4) = '1' and w_mem_wb_control_bus(8) = '1' 
+	else '0';
+	w_PC_mux <=  w_alu_zero xor  w_id_ex_curr_instr(26) when (w_id_ex_control_bus(4) = '1' and w_mem_wb_control_bus(8) = '1')
+	else w_control_bus(4) and w_comp_equal;
 	--------------------EXECUTE-------------------------------
 
 	alu_decoder : entity work.alu_decoder(rtl)
@@ -432,15 +389,6 @@ begin
 		o_zero => w_alu_zero,
 		o_out => w_alu_out);
 
-	--alu : entity work.alu(rtl) 
-	--generic map(
-	--	g_width => 32)
-	--port map(
-	--	i_A => w_id_ex_reg_dataA,
-	--	i_B => w_alu_inB,
-	--	i_op => w_alu_control,
-	--	o_zero => w_alu_zero,
-	--	o_out => w_alu_out);
 
 	mux_fwdA : process(all)
 	begin
@@ -493,19 +441,6 @@ begin
 		i_addr => w_ex_mem_alu_out,
 		i_data => w_ex_mem_reg_dataB,
 		o_data => w_data_mem_out);
-
-	--mux2_1_bne : entity work.mux2_bit(rtl)
-	--generic map(
-	--	g_width => 1)
-	--port map(
-	--	i_A => w_ex_mem_alu_zero,
-	--	i_B => not w_ex_mem_alu_zero,
-	--	i_sel => w_ex_mem_curr_instr(26),
-	--	o_out => w_mux_bne);
-
-
-	--w_PC_mux <= w_ex_mem_control_bus(4) and w_mux_bne;
-
 	---------------WB----------------------------
 
 	mux2_32_reg_write_data : entity work.mux2(rtl)

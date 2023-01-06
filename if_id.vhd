@@ -9,9 +9,11 @@ entity if_id is
 		i_flush : in std_ulogic;
 		i_PC : in std_ulogic_vector(31 downto 0);
 		i_instr : in std_ulogic_vector(31 downto 0);
+		i_branch_add_out : in std_ulogic_vector(31 downto 0);
 
 		o_PC : out std_ulogic_vector(31 downto 0);
-		o_instr : out std_ulogic_vector(31 downto 0));
+		o_instr : out std_ulogic_vector(31 downto 0);
+		o_branch_add_out : out std_ulogic_vector(31 downto 0));
 end if_id;
 
 architecture rtl of if_id is 
@@ -22,6 +24,7 @@ begin
 			if(i_rst = '1') then
 				o_PC <= (others => '0');
 				o_instr <= (others => '0');
+				o_branch_add_out <= (others => '0');
 			else
 				if(i_flush = '1') then
 					o_PC <= i_PC;
@@ -29,6 +32,7 @@ begin
 				elsif(i_we = '1') then
 					o_PC <= i_PC;
 					o_instr <= i_instr;
+					o_branch_add_out <= i_branch_add_out;
 				end if;
 			end if;
 		end if;

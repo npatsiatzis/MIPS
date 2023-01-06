@@ -23,13 +23,14 @@ end i_memory;
 
 architecture rtl of i_memory is
 	type ram_type is array(2**g_depth -1 downto 0) of std_ulogic_vector(g_width -1 downto 0);
-	--signal memory : std_ulogic_vector(4*1024 downto 0);
-	--signal mem : ram_type:=(0=> x"01285020",1=>x"01484020",2=>x"01404820",3=>x"01285020",others => (others => '0'));
+	--Tests :
 	
-	--signal mem : ram_type:=(0=>x"11200190", 1=>x"08000006" ,2=>x"8d490190",3=>x"11200190" ,4=> x"01285020",5=>x"ad2a0064",6=> x"ad490064" ,7 =>x"08000002",8=>x"01285020",others => (others => '0'));
-	---------signal mem : ram_type:=(0=>x"11290005",1=>x"8d490190",2=>x"11200190" ,3=> x"01285020",4=>x"ad2a0064",5=> x"ad490064",others => (others => '0'));
+	--test branch, then test dependent R-type operations
+	--signal mem : ram_type:=(0=> x"11290003",1=> x"01484020",2=>x"01285020",3=>x"01404820",4=>x"01285020",others => (others => '0'));
 	
-	signal mem : ram_type:=(0=>x"11290003",1=>x"01285020",2=>x"01404820",3=>x"01285020",4=>x"8d490190",5=>x"11200190",6=>x"01285020",406 => x"08000000",others => (others => '0'));
+	--test jump, load, dependent branch after load
+	signal mem : ram_type:=(0=>x"11200190", 1=>x"08000006" ,2=>x"8d490190",3=>x"11200190" ,4=> x"01285020",5=>x"ad2a0064",6=> x"ad490064" ,7 =>x"08000002",8=>x"01285020",others => (others => '0'));
+	--signal mem : ram_type:=(0=>x"11290003",1=>x"01285020",2=>x"01404820",3=>x"01285020",4=>x"8d490190",5=>x"11200190",6=>x"01285020",406 => x"08000000",others => (others => '0'));
 begin
 
 	o_data <= mem(to_integer(unsigned(i_addr(11 downto 0))));
@@ -40,9 +41,6 @@ begin
 			if(i_en = '1') then
 				if(i_we = '1') then
 					mem(to_integer(unsigned(i_addr(11 downto 0)))) <= i_data;
-					--o_data <= i_data;
-				--else
-					--o_data <= mem(to_integer(unsigned(i_addr(11 downto 0))));
 				end if;
 			end if;
 		end if;
