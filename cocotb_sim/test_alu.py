@@ -8,21 +8,20 @@ sim_args = "--wave=wave.ghw"
 
 tests_dir = os.path.abspath(os.path.dirname(__file__)) #gives the path to the test(current) directory in which this test.py file is placed
 rtl_dir = tests_dir                                    #path to hdl folder where .vhdd files are placed
-model_dir = os.path.join(tests_dir, "model")
+model_dir = os.path.join(tests_dir, "../model")
 
                                    
 #run tests with generic values for length
-@pytest.mark.parametrize("g_width", [str(i) for i in range(2,5,1)])
-def test_mux(g_width):
+@pytest.mark.parametrize("parameter", [{"g_width": str(i)} for i in range(2,5,1)])
+def test_alu(parameter):
 
-    module = "testbench_mux2"
-    toplevel = "mux2"   
+    module = "testbench_alu"
+    toplevel = "alu"   
     vhdl_sources = [
-        os.path.join(rtl_dir, "mux2.vhd"),
+        os.path.join(rtl_dir, "../rtl/alu.vhd"),
         ]
 
-    parameter = {}
-    parameter['g_width'] = g_width
+
 
     run(
         python_search=[tests_dir,model_dir],               #where to search for all the python test files

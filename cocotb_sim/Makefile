@@ -6,24 +6,24 @@ TOPLEVEL_LANG ?= vhdl
 EXTRA_ARGS += --std=08
 SIM_ARGS += --wave=wave.ghw
 
-VHDL_SOURCES += $(PWD)/alu.vhd
-VHDL_SOURCES += $(PWD)/d_memory.vhd
-VHDL_SOURCES += $(PWD)/i_memory.vhd
-VHDL_SOURCES += $(PWD)/reg_file.vhd
-VHDL_SOURCES += $(PWD)/adder_32.vhd
-VHDL_SOURCES += $(PWD)/mux2.vhd
-VHDL_SOURCES += $(PWD)/mux2_bit.vhd
-VHDL_SOURCES += $(PWD)/shift2.vhd
-VHDL_SOURCES += $(PWD)/sign_extend.vhd
-VHDL_SOURCES += $(PWD)/control_unit.vhd
-VHDL_SOURCES += $(PWD)/alu_decoder.vhd
-VHDL_SOURCES += $(PWD)/top.vhd
-VHDL_SOURCES += $(PWD)/if_id.vhd
-VHDL_SOURCES += $(PWD)/id_ex.vhd
-VHDL_SOURCES += $(PWD)/ex_mem.vhd
-VHDL_SOURCES += $(PWD)/mem_wb.vhd
-VHDL_SOURCES += $(PWD)/forwarding_unit.vhd
-VHDL_SOURCES += $(PWD)/hazard_detection_unit.vhd
+VHDL_SOURCES += $(PWD)/../rtl/alu.vhd
+VHDL_SOURCES += $(PWD)/../rtl/d_memory.vhd
+VHDL_SOURCES += $(PWD)/../rtl/i_memory.vhd
+VHDL_SOURCES += $(PWD)/../rtl/reg_file.vhd
+VHDL_SOURCES += $(PWD)/../rtl/adder_32.vhd
+VHDL_SOURCES += $(PWD)/../rtl/mux2.vhd
+VHDL_SOURCES += $(PWD)/../rtl/mux2_bit.vhd
+VHDL_SOURCES += $(PWD)/../rtl/shift2.vhd
+VHDL_SOURCES += $(PWD)/../rtl/sign_extend.vhd
+VHDL_SOURCES += $(PWD)/../rtl/control_unit.vhd
+VHDL_SOURCES += $(PWD)/../rtl/alu_decoder.vhd
+VHDL_SOURCES += $(PWD)/../rtl/top.vhd
+VHDL_SOURCES += $(PWD)/../rtl/if_id.vhd
+VHDL_SOURCES += $(PWD)/../rtl/id_ex.vhd
+VHDL_SOURCES += $(PWD)/../rtl/ex_mem.vhd
+VHDL_SOURCES += $(PWD)/../rtl/mem_wb.vhd
+VHDL_SOURCES += $(PWD)/../rtl/forwarding_unit.vhd
+VHDL_SOURCES += $(PWD)/../rtl/hazard_detection_unit.vhd
 # use VHDL_SOURCES for VHDL files
 
 # TOPLEVEL is the name of the toplevel module in your Verilog or VHDL file
@@ -31,7 +31,7 @@ VHDL_SOURCES += $(PWD)/hazard_detection_unit.vhd
 
 #PYTHPNPATH is an environment variable that can be set to additional directories
 #where python will look for modules and packages
-export PYTHONPATH := $(PWD)/model:$(PYTHONPATH)
+export PYTHONPATH := $(PWD)/../model:$(PYTHONPATH)
 
 top:
 		$(MAKE) sim MODULE=testbench_top TOPLEVEL=top

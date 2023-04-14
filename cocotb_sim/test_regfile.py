@@ -18,7 +18,7 @@ def test_regfile(g_width,g_depth):
     module = "testbench_regfile"
     toplevel = "reg_file"   
     vhdl_sources = [
-        os.path.join(rtl_dir, "reg_file.vhd"),
+        os.path.join(rtl_dir, "../rtl/reg_file.vhd"),
         ]
 
     parameter = {}

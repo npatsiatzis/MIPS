@@ -18,7 +18,7 @@ def test_memory(g_width,g_depth):
     module = "testbench_memory"
     toplevel = "d_memory"   
     vhdl_sources = [
-        os.path.join(rtl_dir, "d_memory.vhd"),
+        os.path.join(rtl_dir, "../rtl/d_memory.vhd"),
         ]
 
     parameter = {}
